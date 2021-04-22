@@ -143,5 +143,7 @@
       emacs-helm
       emacs-geiser ; scheme
       emacs-cider ; clojure
+      emacs-magit
+      emacs-base16-theme
       transmission transmission-remote-cli
       youtube-dl)))))
