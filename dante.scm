@@ -144,6 +144,11 @@
       emacs-pinentry
       emacs-xah-fly-keys emacs-which-key
       emacs-helm
+      emacs-eshell-bookmark
+      emacs-esh-autosuggest
+      emacs-helm-fish-completion fish
+      emacs-eshell-prompt-extras
+      emacs-eshell-syntax-highlighting
       emacs-lispy
       emacs-geiser ; scheme
       emacs-cider ; clojure
@@ -154,8 +159,7 @@
       emacs-diff-hl
       emacs-expand-region
       emacs-multiple-cursors
-      emacs-projectile
+      emacs-projectile emacs-helm-projectile
       transmission transmission-remote-cli
       alacritty ncurses
       youtube-dl)))))
-    
