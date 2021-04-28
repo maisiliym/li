@@ -25,6 +25,7 @@
              (gnu packages terminals)
              (gnu packages bittorrent)
              (gnu packages video)
+             (gnu packages ncurses)
              (gnu packages version-control)
              (gnu packages rust-apps))
 
@@ -72,7 +73,8 @@
 (define interactive-zsh-env 
  (shell-set-env 
   (quote
-   (("EDITOR" "emacs")
+   (("SSH_AUTH_SOCK" "$(gpgconf --list-dirs agent-ssh-socket)")
+   ("EDITOR" "emacs")
    ("FZF_DEFAULT_OPTS" "\"--bind=ctrl-o:up,ctrl-e:up,ctrl-n:down,ctrl-k:down,ctrl-i:clear-screen,ctrl-s:delete-char/eof,ctrl-f:end-of-line,alt-t:forward-word,alt-s:kill-word,ctrl-u:toggle+down,ctrl-l:unix-line-discard,ctrl-j:yank --color=bg:#f9f5d7,bg+:#ebdbb2,fg:#665c54,fg+:#3c3836,header:#076678,hl:#076678,hl+:#076678,info:#b57614,marker:#427b58,pointer:#427b58,prompt:#b57614,spinner:#427b58\"")
     ("FZF_DEFAULT_COMMAND" "\"fd -tf\"")))))
 
@@ -116,7 +118,6 @@
    (list
     (symlink-file-home "/data/li/git" "git")
     (symlink-file-home "/data/li/.gnupg" ".gnupg")
-    ;(symlink-file-home sshcontrol-file ".gnupg/sshcontrol")
     (symlink-file-home "/data/li/git/imaks" ".config/emacs")
     (symlink-file-home gitconfig-file ".config/git/config")
     (user-home
@@ -138,12 +139,23 @@
      (list
       dvtm abduco zsh fzf perl fd
       git gnupg pinentry-tty
+      pinentry-emacs
       emacs
+      emacs-pinentry
       emacs-xah-fly-keys emacs-which-key
       emacs-helm
+      emacs-lispy
       emacs-geiser ; scheme
       emacs-cider ; clojure
       emacs-magit
-      emacs-base16-theme
+      emacs-git-undo
+      emacs-yasnippet
+      emacs-prescient
+      emacs-diff-hl
+      emacs-expand-region
+      emacs-multiple-cursors
+      emacs-projectile
       transmission transmission-remote-cli
+      alacritty ncurses
       youtube-dl)))))
+    
