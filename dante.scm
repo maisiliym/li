@@ -112,6 +112,8 @@
  (mixed-text-file "sshcontrol"
                   "AD305831DD33E62F9AD587718D4E5E6999CD84EA"))
 
+(define gnupg-conf ())
+
 (home
   (data-directory "/data/li")
   (configurations
@@ -142,11 +144,13 @@
       pinentry-emacs
       emacs
       emacs-pinentry
-      emacs-xah-fly-keys emacs-which-key
-      emacs-helm
+      emacs-xah-fly-keys
+      emacs-which-key
+      emacs-fish-completion fish
+      emacs-adaptive-wrap
+      emacs-guix
       emacs-eshell-bookmark
       emacs-esh-autosuggest
-      emacs-helm-fish-completion fish
       emacs-eshell-prompt-extras
       emacs-eshell-syntax-highlighting
       emacs-lispy
@@ -155,11 +159,14 @@
       emacs-magit
       emacs-git-undo
       emacs-yasnippet
+      emacs-selectrum
+      emacs-posframe
       emacs-prescient
+      emacs-marginalia
       emacs-diff-hl
       emacs-expand-region
       emacs-multiple-cursors
-      emacs-projectile emacs-helm-projectile
+      emacs-projectile
       transmission transmission-remote-cli
       alacritty ncurses
       youtube-dl)))))
