@@ -13,6 +13,9 @@
              (guix git-download)
              (guix gexp)
              (gnu packages guile)
+             (gnu packages xdisorg)
+             (gnu packages wm)
+             (gnu packages package-management)
              (gnu packages autotools)
              (gnu packages gettext)
              (gnu packages perl)
@@ -112,7 +115,7 @@
  (mixed-text-file "sshcontrol"
                   "AD305831DD33E62F9AD587718D4E5E6999CD84EA"))
 
-(define gnupg-conf ())
+(define gnupg-conf '())
 
 (home
   (data-directory "/data/li")
@@ -121,6 +124,7 @@
     (symlink-file-home "/data/li/git" "git")
     (symlink-file-home "/data/li/.gnupg" ".gnupg")
     (symlink-file-home "/data/li/git/imaks" ".config/emacs")
+    (symlink-file-home "/data/li/git/li/sway.conf" ".config/sway/config")
     (symlink-file-home gitconfig-file ".config/git/config")
     (user-home
      zsh-home-type
@@ -141,20 +145,27 @@
      (list
       dvtm abduco zsh fzf perl fd
       git gnupg pinentry-tty
+      wofi foot waybar swaylock swayidle
       pinentry-emacs
-      emacs
+      emacs-next-pgtk
       emacs-pinentry
       emacs-xah-fly-keys
       emacs-which-key
+      emacs-helpful
+      emacs-org
+      emacs-org-roam
+      emacs-doom-modeline
+      emacs-treemacs
       emacs-fish-completion fish
       emacs-adaptive-wrap
-      emacs-guix
+      emacs-geiser ; scheme
+      emacs-geiser-guile
+      emacs-guix ; broken
       emacs-eshell-bookmark
       emacs-esh-autosuggest
       emacs-eshell-prompt-extras
       emacs-eshell-syntax-highlighting
       emacs-lispy
-      emacs-geiser ; scheme
       emacs-cider ; clojure
       emacs-magit
       emacs-git-undo
