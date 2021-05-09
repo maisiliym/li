@@ -1,4 +1,5 @@
 (use-modules (home)
+             (home ssh)
              (home profile)
              (home utils)
              (home bash)
@@ -114,7 +115,9 @@
 		     ("name" "li")
 		     ("signingKey" "&AD305831DD33E62F9AD587718D4E5E6999CD84EA")))
 		   ("ghq"
-		    (("root" "/git"))))))
+		    (("root" "/git")))
+		   ("github"
+		    (("user" "maisiliym"))))))
 
 (define source-home-profile (source-profile '~/.home-profile))
 
@@ -143,6 +146,15 @@
    (symlink-file-home "/data/li/git/imaks" ".config/emacs")
    (symlink-file-home "/data/li/git/li/sway.conf" ".config/sway/config")
    (symlink-file-home gitconfig-file ".config/git/config")
+   (user-home
+    ssh-home-type
+    (ssh-configuration
+     (known-hosts
+      (list
+       (ssh-known-host-configuration
+        (names '("github.com"))
+	(algo "ssh-rsa")
+        (key "AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=="))))))
    (user-home
     zsh-home-type
     (zsh-configuration
@@ -193,6 +205,7 @@
 	       emacs-eshell-syntax-highlighting
 	       emacs-lispy
 	       emacs-cider ; clojure
+	       emacs-slime ; common-lisp
 	       emacs-nix-mode
 	       emacs-magit
 	       emacs-forge
