@@ -23,6 +23,7 @@
              (gnu packages gettext)
              (gnu packages perl)
              (gnu packages gnupg)
+	     (gnu packages lisp)
              (gnu packages emacs-xyz)
              (gnu packages emacs)
              (gnu packages dvtm)
@@ -172,7 +173,8 @@
      (history "/data/li/.local/share/bash/history")))
    (user-home package-profile-home-type
 	      (list
-	       dvtm abduco zsh fzf perl fd
+	       dvtm abduco zsh fzf perl
+	       fd tokei
 	       fontconfig
 	       font-google-material-design-icons
 	       font-awesome
@@ -191,7 +193,7 @@
 	       emacs-helpful
 	       emacs-org
 	       emacs-org-roam
-	       emacs-doom-modeline
+	       emacs-doom-modeline emacs-doom-themes
 	       emacs-deadgrep
 	       emacs-treemacs
 	       emacs-fish-completion fish
@@ -204,23 +206,28 @@
 	       emacs-eshell-prompt-extras
 	       emacs-eshell-syntax-highlighting
 	       emacs-lispy
+	       emacs-shen-mode
 	       emacs-cider ; clojure
-	       emacs-slime ; common-lisp
+	       emacs-slime sbcl ; common-lisp
 	       emacs-nix-mode
 	       emacs-magit
 	       emacs-forge
 	       emacs-git-undo
 	       emacs-yasnippet
+	       emacs-company
 	       emacs-selectrum
+	       emacs-orderless
 	       emacs-consult
 	       emacs-embark
 	       emacs-posframe
 	       emacs-prescient
 	       emacs-marginalia
 	       emacs-ghq
-	       emacs-diff-hl
+	       ;; emacs-diff-hl
+	       emacs-git-gutter
 	       emacs-expand-region
 	       emacs-multiple-cursors
 	       emacs-projectile
+	       emacs-sx ; stackexchange
 	       transmission transmission-remote-cli
 	       youtube-dl)))))
