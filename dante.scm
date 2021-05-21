@@ -137,6 +137,12 @@
 ;;    (local-symlink (string-append data-directory "/.local"))
 ;;    (cache-symlink (string-append data-directory "/.cache"))))
 
+(define guile-geiser-file
+  (local-file "guile-geiser.scm"))
+
+(define guile-file
+  (local-file "guile.scm"))
+
 (home
  (data-directory "/data/li")
  ;(base-configuration haki-base-configuration)
@@ -147,6 +153,11 @@
    (symlink-file-home "/data/li/git/imaks" ".config/emacs")
    (symlink-file-home "/data/li/git/li/sway.conf" ".config/sway/config")
    (symlink-file-home gitconfig-file ".config/git/config")
+   (symlink-file-home "/data/li/.guile-geiser" ".guile-geiser")
+   (symlink-file-home "/data/li/.guile" ".guile")
+   (symlink-file-home "/data/li/.slime" ".slime")
+   ;; (symlink-file-home gitconfig-file ".config/git/config")
+   ;; (symlink-file-home guile-geiser-file ".guile-geiser") 
    (user-home
     ssh-home-type
     (ssh-configuration
@@ -173,6 +184,7 @@
      (history "/data/li/.local/share/bash/history")))
    (user-home package-profile-home-type
 	      (list
+	       ;; guix ; info manual? bug: breaks guix channel
 	       dvtm abduco zsh fzf perl
 	       fd tokei
 	       fontconfig
@@ -223,7 +235,6 @@
 	       emacs-prescient
 	       emacs-marginalia
 	       emacs-ghq
-	       ;; emacs-diff-hl
 	       emacs-git-gutter
 	       emacs-expand-region
 	       emacs-multiple-cursors
