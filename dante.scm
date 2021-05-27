@@ -156,6 +156,7 @@
    (symlink-file-home "/data/li/.guile-geiser" ".guile-geiser")
    (symlink-file-home "/data/li/.guile" ".guile")
    (symlink-file-home "/data/li/.slime" ".slime")
+   (symlink-file-home "/data/li/.geiser_history" ".geiser_history")
    ;; (symlink-file-home gitconfig-file ".config/git/config")
    ;; (symlink-file-home guile-geiser-file ".guile-geiser") 
    (user-home
@@ -225,9 +226,10 @@
 	       emacs-magit
 	       emacs-forge
 	       emacs-git-undo
-	       emacs-yasnippet
+	       emacs-yasnippet emacs-yasnippet-snippets
 	       emacs-company
 	       emacs-selectrum
+	       emacs-ctrlf
 	       emacs-orderless
 	       emacs-consult
 	       emacs-embark
@@ -237,7 +239,7 @@
 	       emacs-ghq
 	       emacs-git-gutter
 	       emacs-expand-region
-	       emacs-multiple-cursors
+	       emacs-multiple-cursors-dev
 	       emacs-projectile
 	       emacs-sx ; stackexchange
 	       transmission transmission-remote-cli
