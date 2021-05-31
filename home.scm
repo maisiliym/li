@@ -91,6 +91,8 @@
 (define interactive-zsh
   (newline-strings
    (list
+    "export GPG_TTY=$(tty)"
+    "gpg-connect-agent --quiet updatestartuptty /bye > /dev/null"
     "bindkey -v"
     "autoload -U compinit && compinit"
     "autoload -Uz url-quote-magic"
@@ -106,19 +108,20 @@
     "bindkey '^N' fzf-completion")))
 
 (define gitconfig-file
-  (make-ini-file "git-config"
-		 '(("commit"
-		    (("gpgSign" "true")))
-		   ("init"
-		    (("defaultBranch" "mein"))) 
-		   ("user"
-		    (("email" "@li:maisiliym.uniks")
-		     ("name" "li")
-		     ("signingKey" "&AD305831DD33E62F9AD587718D4E5E6999CD84EA")))
-		   ("ghq"
-		    (("root" "/git")))
-		   ("github"
-		    (("user" "maisiliym"))))))
+  (make-ini-file
+   "git-config"
+   '(("commit"
+      (("gpgSign" "true")))
+     ("init"
+      (("defaultBranch" "mein"))) 
+     ("user"
+      (("email" "@li:maisiliym.uniks")
+       ("name" "li")
+       ("signingKey" "&AD305831DD33E62F9AD587718D4E5E6999CD84EA")))
+     ("ghq"
+      (("root" "/git")))
+     ("github"
+      (("user" "maisiliym"))))))
 
 (define source-home-profile (source-profile '~/.home-profile))
 
@@ -145,11 +148,11 @@
 
 (home
  (data-directory "/data/li")
- ;(base-configuration haki-base-configuration)
  (configurations
   (list
    (symlink-file-home "/data/li/git" "git")
    (symlink-file-home "/data/li/.gnupg" ".gnupg")
+   (symlink-file-home "/data/li/.password-store" ".password-store")
    (symlink-file-home "/data/li/git/imaks" ".config/emacs")
    (symlink-file-home "/data/li/git/li/sway.conf" ".config/sway/config")
    (symlink-file-home gitconfig-file ".config/git/config")
@@ -200,7 +203,7 @@
 	       mpv
 	       pinentry-emacs
 	       emacs-next-pgtk
-	       emacs-pinentry
+	       emacs-pinentry emacs-password-store
 	       emacs-xah-fly-keys
 	       emacs-which-key
 	       emacs-helpful
@@ -211,21 +214,22 @@
 	       emacs-treemacs
 	       emacs-fish-completion fish
 	       emacs-adaptive-wrap
+	       emacs-ggtags
 	       emacs-geiser ; scheme
-	       emacs-geiser-guile
+	       emacs-geiser-guile guile-3.0-latest
 	       emacs-guix ; broken
 	       emacs-eshell-bookmark
 	       emacs-esh-autosuggest
 	       emacs-eshell-prompt-extras
 	       emacs-eshell-syntax-highlighting
 	       emacs-lispy
-	       emacs-shen-mode
+	       emacs-shen-mode emacs-shen-elisp
 	       emacs-cider ; clojure
 	       emacs-slime sbcl ; common-lisp
 	       emacs-nix-mode
 	       emacs-magit
-	       emacs-forge
-	       emacs-git-undo
+	       emacs-forge emacs-git-link emacs-github-review
+	       emacs-git-undo ; unproven to work
 	       emacs-yasnippet emacs-yasnippet-snippets
 	       emacs-company
 	       emacs-selectrum
@@ -240,6 +244,7 @@
 	       emacs-git-gutter
 	       emacs-expand-region
 	       emacs-multiple-cursors-dev
+	       emacs-phi-search emacs-phi-search-mc
 	       emacs-projectile
 	       emacs-sx ; stackexchange
 	       transmission transmission-remote-cli
