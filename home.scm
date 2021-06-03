@@ -6,6 +6,7 @@
              (home zsh)
              (giiks)
              (giiks emacs-xyz)
+	     (flat packages emacs)
              (oop goops)
              (ice-9 format)
              (guix store)
@@ -13,6 +14,7 @@
              (guix derivations)
              (guix git-download)
              (guix gexp)
+	     (gnu packages networking)
              (gnu packages guile)
              (gnu packages xdisorg)
              (gnu packages web-browsers)
@@ -24,8 +26,8 @@
              (gnu packages perl)
              (gnu packages gnupg)
 	     (gnu packages lisp)
+	     (gnu packages emacs)
              (gnu packages emacs-xyz)
-             (gnu packages emacs)
              (gnu packages dvtm)
              (gnu packages abduco)
              (gnu packages shells)
@@ -191,18 +193,20 @@
 	       ;; guix ; info manual? bug: breaks guix channel
 	       dvtm abduco zsh fzf perl
 	       fd tokei
+	       fping
 	       fontconfig
 	       font-google-material-design-icons
 	       font-awesome
 	       ncurses
-	       git ghq
+	       git mercurial ghq
 	       gnupg pinentry-tty
 	       wofi foot waybar swaylock swayidle
 	       redshift-wayland
 	       nyxt
 	       mpv
 	       pinentry-emacs
-	       emacs-next-pgtk
+	       ;; emacs-next-pgtk
+	       emacs-pgtk-native-comp
 	       emacs-pinentry emacs-password-store
 	       emacs-xah-fly-keys
 	       emacs-which-key
@@ -233,6 +237,7 @@
 	       emacs-yasnippet emacs-yasnippet-snippets
 	       emacs-company
 	       emacs-selectrum
+	       emacs-posframe
 	       emacs-ctrlf
 	       emacs-orderless
 	       emacs-consult
