@@ -15,13 +15,17 @@
              (guix git-download)
              (guix gexp)
 	     (gnu packages networking)
+	     (gnu packages linux)
              (gnu packages guile)
              (gnu packages xdisorg)
              (gnu packages web-browsers)
              (gnu packages wm)
+             (gnu packages gnome)
+             (gnu packages messaging)
              (gnu packages package-management)
              (gnu packages fonts)
              (gnu packages autotools)
+             (gnu packages gdb)
              (gnu packages gettext)
              (gnu packages perl)
              (gnu packages gnupg)
@@ -148,6 +152,12 @@
 (define guile-file
   (local-file "guile.scm"))
 
+(define wofi-config-file
+  (local-file "wofi/config"))
+
+(define wofi-style-file
+  (local-file "wofi/style.css"))
+
 (home
  (data-directory "/data/li")
  (configurations
@@ -158,6 +168,8 @@
    (symlink-file-home "/data/li/git/imaks" ".config/emacs")
    (symlink-file-home "/data/li/git/li/sway.conf" ".config/sway/config")
    (symlink-file-home gitconfig-file ".config/git/config")
+   (symlink-file-home wofi-config-file ".config/wofi/config")
+   (symlink-file-home wofi-style-file ".config/wofi/style.css")
    (symlink-file-home "/data/li/.guile-geiser" ".guile-geiser")
    (symlink-file-home "/data/li/.guile" ".guile")
    (symlink-file-home "/data/li/.slime" ".slime")
@@ -172,7 +184,16 @@
        (ssh-known-host-configuration
         (names '("github.com"))
 	(algo "ssh-rsa")
-        (key "AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=="))))))
+        (key "AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=="))
+       (ssh-known-host-configuration
+        (names '("::1"))
+	(algo "ssh-ed25519")
+        (key "AAAAC3NzaC1lZDI1NTE5AAAAIGjgYK7TBRSDa6Iuapw18VkS970p4IgZAo3iC/QiiypL"))
+       (ssh-known-host-configuration
+        (names '("fe80::5c8:47b7:81af:b079%enp0s25"))
+	(algo "ssh-ed25519")
+        (key "AAAAC3NzaC1lZDI1NTE5AAAAIIFxIyvJxTrKCdXDrLi1ac3kZW8VE/+pW4f/SZVwj2Ue"))
+       ))))
    (user-home
     zsh-home-type
     (zsh-configuration
@@ -190,12 +211,14 @@
      (history "/data/li/.local/share/bash/history")))
    (user-home package-profile-home-type
 	      (list
-	       ;; guix ; info manual? bug: breaks guix channel
+	       guix ; info manual? bug: breaks guix channel
 	       dvtm abduco zsh fzf perl
 	       fd tokei
-	       fping
+	       iproute iputils
+	       gdb
 	       fontconfig
 	       font-google-material-design-icons
+	       hicolor-icon-theme
 	       font-awesome
 	       ncurses
 	       git mercurial ghq
@@ -203,6 +226,7 @@
 	       wofi foot waybar swaylock swayidle
 	       redshift-wayland
 	       nyxt
+	       nheko
 	       mpv
 	       pinentry-emacs
 	       ;; emacs-next-pgtk
@@ -231,6 +255,7 @@
 	       emacs-cider ; clojure
 	       emacs-slime sbcl ; common-lisp
 	       emacs-nix-mode
+	       emacs-markdown-mode ;; emacs-polymode-markdown ; build broken
 	       emacs-magit
 	       emacs-forge emacs-git-link emacs-github-review
 	       emacs-git-undo ; unproven to work
@@ -251,6 +276,7 @@
 	       emacs-multiple-cursors-dev
 	       emacs-phi-search emacs-phi-search-mc
 	       emacs-projectile
+	       emacs-matrix-client
 	       emacs-sx ; stackexchange
 	       transmission transmission-remote-cli
 	       youtube-dl)))))
