@@ -14,12 +14,14 @@
              (guix derivations)
              (guix git-download)
              (guix gexp)
+	     (gnu packages admin)	     
 	     (gnu packages networking)
 	     (gnu packages linux)
              (gnu packages guile)
              (gnu packages xdisorg)
              (gnu packages web-browsers)
              (gnu packages wm)
+	     (gnu packages pdf)
              (gnu packages gnome)
              (gnu packages messaging)
              (gnu packages package-management)
@@ -121,7 +123,7 @@
      ("init"
       (("defaultBranch" "mein"))) 
      ("user"
-      (("email" "@li:maisiliym.uniks")
+      (("email" "li@maisiliym.uniks")
        ("name" "li")
        ("signingKey" "&AD305831DD33E62F9AD587718D4E5E6999CD84EA")))
      ("ghq"
@@ -137,7 +139,7 @@
 
 (define gnupg-conf '())
 
-(define data-directory "/data/li")
+(define data-directory "/home/.li")
 
 ;; (define haki-base-configuration
 ;;   (base-home-configuration
@@ -159,21 +161,24 @@
   (local-file "wofi/style.css"))
 
 (home
- (data-directory "/data/li")
+ (data-directory "/home/.li")
  (configurations
   (list
-   (symlink-file-home "/data/li/git" "git")
-   (symlink-file-home "/data/li/.gnupg" ".gnupg")
-   (symlink-file-home "/data/li/.password-store" ".password-store")
-   (symlink-file-home "/data/li/git/imaks" ".config/emacs")
-   (symlink-file-home "/data/li/git/li/sway.conf" ".config/sway/config")
+   (symlink-file-home "/home/.li/git" "git")
+   (symlink-file-home "/home/.li/Downloads" "Downloads")
+   (symlink-file-home "/home/.li/.gnupg" ".gnupg")
+   (symlink-file-home "/home/.li/.password-store" ".password-store")
+   (symlink-file-home "/home/.li/git/imaks" ".config/emacs")
+   (symlink-file-home "/home/.li/git/li/sway.conf" ".config/sway/config")
    (symlink-file-home gitconfig-file ".config/git/config")
    (symlink-file-home wofi-config-file ".config/wofi/config")
    (symlink-file-home wofi-style-file ".config/wofi/style.css")
-   (symlink-file-home "/data/li/.guile-geiser" ".guile-geiser")
-   (symlink-file-home "/data/li/.guile" ".guile")
-   (symlink-file-home "/data/li/.slime" ".slime")
-   (symlink-file-home "/data/li/.geiser_history" ".geiser_history")
+   (symlink-file-home "/home/.li/.gajim" ".config/gajim")
+   (symlink-file-home "/home/.li/.tox" ".config/tox")   
+   (symlink-file-home "/home/.li/.guile-geiser" ".guile-geiser")
+   (symlink-file-home "/home/.li/.guile" ".guile")
+   (symlink-file-home "/home/.li/.slime" ".slime")
+   (symlink-file-home "/home/.li/.geiser_history" ".geiser_history")
    ;; (symlink-file-home gitconfig-file ".config/git/config")
    ;; (symlink-file-home guile-geiser-file ".guile-geiser") 
    (user-home
@@ -186,9 +191,13 @@
 	(algo "ssh-rsa")
         (key "AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=="))
        (ssh-known-host-configuration
-        (names '("::1"))
+        (names '("dante"))
 	(algo "ssh-ed25519")
         (key "AAAAC3NzaC1lZDI1NTE5AAAAIGjgYK7TBRSDa6Iuapw18VkS970p4IgZAo3iC/QiiypL"))
+       (ssh-known-host-configuration
+        (names '("xerxes"))
+	(algo "ssh-ed25519")
+        (key "AAAAC3NzaC1lZDI1NTE5AAAAIIFxIyvJxTrKCdXDrLi1ac3kZW8VE/+pW4f/SZVwj2Ue"))
        (ssh-known-host-configuration
         (names '("fe80::5c8:47b7:81af:b079%enp0s25"))
 	(algo "ssh-ed25519")
@@ -200,7 +209,7 @@
      (env (list shell-env zsh-env))
      (profile (list source-home-profile))
      (rc (list interactive-zsh-env interactive-zsh zsh-coleremak))
-     (history "/data/li/.local/share/zsh/history")))
+     (history "/home/.li/.local/share/zsh/history")))
    (user-home
     bash-home-type
     (bash-configuration
@@ -208,13 +217,12 @@
 			  (list source-home-profile))))
      (profile (append default-bash-profile
                       (list "EDITOR=emacs\n")))
-     (history "/data/li/.local/share/bash/history")))
+     (history "/home/.li/.local/share/bash/history")))
    (user-home package-profile-home-type
 	      (list
-	       guix ; info manual? bug: breaks guix channel
-	       dvtm abduco zsh fzf perl
-	       fd tokei
-	       iproute iputils
+	       guix shepherd ; info manual? bug: breaks guix channel
+	       zsh fzf perl
+	       tokei
 	       gdb
 	       fontconfig
 	       font-google-material-design-icons
@@ -222,14 +230,18 @@
 	       font-awesome
 	       ncurses
 	       git mercurial ghq
-	       gnupg pinentry-tty
+	       gnupg pinentry-tty pinentry-gnome3 pinentry-emacs
 	       wofi foot waybar swaylock swayidle
+	       wl-clipboard
 	       redshift-wayland
+	       aria2
 	       nyxt
 	       nheko
+	       qtox
+	       gajim gajim-omemo
 	       mpv
-	       pinentry-emacs
-	       ;; emacs-next-pgtk
+	       zathura zathura-cb zathura-ps zathura-djvu zathura-pdf-mupdf
+	       evince
 	       emacs-pgtk-native-comp
 	       emacs-pinentry emacs-password-store
 	       emacs-xah-fly-keys
@@ -239,7 +251,13 @@
 	       emacs-org-roam
 	       emacs-doom-modeline emacs-doom-themes
 	       emacs-deadgrep
-	       emacs-treemacs
+	       ;; emacs-treemacs ; testing dired
+	       emacs-dired-hacks
+	       emacs-dired-sidebar
+	       emacs-diredfl
+	       emacs-dired-rsync
+	       emacs-dired-git-info
+	       emacs-all-the-icons-dired
 	       emacs-fish-completion fish
 	       emacs-adaptive-wrap
 	       emacs-ggtags
