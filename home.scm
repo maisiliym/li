@@ -86,7 +86,8 @@
    (quote
     (("HISTFILE" "~/.local/share/zsh/history")
      ("HISTSIZE" 10000)
-     ("SAVEHIST" 1000)))))
+     ("SAVEHIST" 1000)
+     ("SHARE_HISTORY" 1)))))
 
 (define interactive-zsh-env 
   (shell-set-env 
@@ -207,7 +208,9 @@
     zsh-home-type
     (zsh-configuration
      (env (list shell-env zsh-env))
-     (profile (list source-home-profile))
+     (profile (list
+	       source-etc-profile
+	       source-home-profile))
      (rc (list interactive-zsh-env interactive-zsh zsh-coleremak))
      (history "/home/.li/.local/share/zsh/history")))
    (user-home
@@ -243,12 +246,14 @@
 	       zathura zathura-cb zathura-ps zathura-djvu zathura-pdf-mupdf
 	       evince
 	       emacs-pgtk-native-comp
+	       emacs-sway emacs-shackle
 	       emacs-pinentry emacs-password-store
 	       emacs-xah-fly-keys
 	       emacs-which-key
 	       emacs-helpful
 	       emacs-org
 	       emacs-org-roam
+	       emacs-orgit
 	       emacs-doom-modeline emacs-doom-themes
 	       emacs-deadgrep
 	       ;; emacs-treemacs ; testing dired
@@ -257,7 +262,7 @@
 	       emacs-diredfl
 	       emacs-dired-rsync
 	       emacs-dired-git-info
-	       emacs-all-the-icons-dired
+	       ;; emacs-all-the-icons-dired ; huge slowdown
 	       emacs-fish-completion fish
 	       emacs-adaptive-wrap
 	       emacs-ggtags
