@@ -161,6 +161,9 @@
 (define wofi-style-file
   (local-file "wofi/style.css"))
 
+(define qutebrowser-config-file
+  (local-file "qutebrowser-config.py"))
+
 (home
  (data-directory "/home/.li")
  (configurations
@@ -180,6 +183,8 @@
    (symlink-file-home "/home/.li/.guile" ".guile")
    (symlink-file-home "/home/.li/.slime" ".slime")
    (symlink-file-home "/home/.li/.geiser_history" ".geiser_history")
+   (symlink-file-home "/home/.li/.config/transmission-daemon" ".config/transmission-daemon")
+   (symlink-file-home qutebrowser-config-file ".config/qutebrowser/config.py")
    ;; (symlink-file-home gitconfig-file ".config/git/config")
    ;; (symlink-file-home guile-geiser-file ".guile-geiser") 
    (user-home
@@ -208,9 +213,7 @@
     zsh-home-type
     (zsh-configuration
      (env (list shell-env zsh-env))
-     (profile (list
-	       source-etc-profile
-	       source-home-profile))
+     (profile (list source-home-profile))
      (rc (list interactive-zsh-env interactive-zsh zsh-coleremak))
      (history "/home/.li/.local/share/zsh/history")))
    (user-home
@@ -237,8 +240,8 @@
 	       wofi foot waybar swaylock swayidle
 	       wl-clipboard
 	       redshift-wayland
-	       aria2
-	       nyxt
+	       aria2 nload
+	       nyxt qutebrowser
 	       nheko
 	       qtox
 	       gajim gajim-omemo
