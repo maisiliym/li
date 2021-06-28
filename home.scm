@@ -67,27 +67,36 @@
       (base32 "0wnjl269y01hnd41r78h6h564j99236n27izmprs2c07f9pv2g08")))))
 
 (define coleremak
-  (make Deriveicyn #:inyr coleremak-drv))
+  (make <deriveicyn> #:inyr coleremak-drv))
 
 (define zsh-coleremak
   (newline-strings
    (list
     (string-append ". " (->path coleremak) "/coleremak.zsh") )))
 
-(define shell-env 
+(define shell-env
   (shell-set-env 
    (quote 
     (("PATH" "~/.config/guix/current/bin:$PATH")
      ("GUILE_LOAD_PATH" "~/.config/guix/current/share/guile/site/3.0:$GUILE_LOAD_PATH")
      ("GUILE_LOAD_COMPILED_PATH" "~/.config/guix/current/lib/guile/3.0/site-ccache:$GUILE_LOAD_COMPILED_PATH")))))
 
+(define (zsh-enable-options opts)
+  (newline-strings
+   (map (lambda (opt)
+	  (format #f "setopt ~a" opt))
+	opts)))
+
+(define zsh-options
+  (zsh-enable-options
+   '("sharehistory")))
+
 (define zsh-env 
-  (shell-set-env 
+  (shell-set-env
    (quote
     (("HISTFILE" "~/.local/share/zsh/history")
      ("HISTSIZE" 10000)
-     ("SAVEHIST" 1000)
-     ("SHARE_HISTORY" 1)))))
+     ("SAVEHIST" 1000)))))
 
 (define interactive-zsh-env 
   (shell-set-env 
@@ -164,6 +173,12 @@
 (define qutebrowser-config-file
   (local-file "qutebrowser-config.py"))
 
+;; (define foot-config-file
+;;   (make-ini-file "foot.ini"
+;; 		 '()))
+(define foot-config-file
+  (local-file "foot.ini"))
+
 (home
  (data-directory "/home/.li")
  (configurations
@@ -177,11 +192,13 @@
    (symlink-file-home gitconfig-file ".config/git/config")
    (symlink-file-home wofi-config-file ".config/wofi/config")
    (symlink-file-home wofi-style-file ".config/wofi/style.css")
+   (symlink-file-home foot-config-file ".config/foot/foot.ini")
    (symlink-file-home "/home/.li/.gajim" ".config/gajim")
    (symlink-file-home "/home/.li/.tox" ".config/tox")   
    (symlink-file-home "/home/.li/.guile-geiser" ".guile-geiser")
    (symlink-file-home "/home/.li/.guile" ".guile")
    (symlink-file-home "/home/.li/.slime" ".slime")
+   (symlink-file-home "/home/.li/.dbus" ".dbus")
    (symlink-file-home "/home/.li/.geiser_history" ".geiser_history")
    (symlink-file-home "/home/.li/.config/transmission-daemon" ".config/transmission-daemon")
    (symlink-file-home qutebrowser-config-file ".config/qutebrowser/config.py")
@@ -212,7 +229,7 @@
    (user-home
     zsh-home-type
     (zsh-configuration
-     (env (list shell-env zsh-env))
+     (env (list "source /etc/profile\n" zsh-options shell-env zsh-env))
      (profile (list source-home-profile))
      (rc (list interactive-zsh-env interactive-zsh zsh-coleremak))
      (history "/home/.li/.local/share/zsh/history")))
@@ -244,7 +261,7 @@
 	       nyxt qutebrowser
 	       nheko
 	       qtox
-	       gajim gajim-omemo
+	       profanity gajim gajim-omemo
 	       mpv
 	       zathura zathura-cb zathura-ps zathura-djvu zathura-pdf-mupdf
 	       evince
@@ -259,7 +276,6 @@
 	       emacs-orgit
 	       emacs-doom-modeline emacs-doom-themes
 	       emacs-deadgrep
-	       ;; emacs-treemacs ; testing dired
 	       emacs-dired-hacks
 	       emacs-dired-sidebar
 	       emacs-diredfl
@@ -304,5 +320,6 @@
 	       emacs-projectile
 	       emacs-matrix-client
 	       emacs-sx ; stackexchange
+	       emacs-transmission
 	       transmission transmission-remote-cli
 	       youtube-dl)))))
