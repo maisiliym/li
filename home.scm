@@ -47,9 +47,7 @@
              (gnu packages version-control)
              (gnu packages rust-apps))
 
-;(define base-home-configuration (@@ (home) base-home-configuration))
-
-(define %dark-theme #f)
+(define %dark-theme #t)
 
 (define (shell-set-env env-value-pairs)
   (define (export-env env-value-pair)
@@ -111,6 +109,7 @@
 (define interactive-zsh
   (newline-strings
    (list
+    interactive-zsh-env
     "export GPG_TTY=$(tty)"
     "gpg-connect-agent --quiet updatestartuptty /bye > /dev/null"
     "bindkey -v"
@@ -125,7 +124,8 @@
     "bindkey '^T' fzf-history-widget"
     "bindkey '^P' fzf-cd-widget"
     "bindkey '^F' fzf-file-widget"
-    "bindkey '^N' fzf-completion")))
+    "bindkey '^N' fzf-completion"
+    (string-append ". " (->path coleremak) "/coleremak.zsh"))))
 
 (define gitconfig-file
   (make-ini-file
@@ -181,20 +181,16 @@
 (define foot-pkg-src
   (package-source foot))
 
-(define foot-src-deriveicyn
+(define foot-src
   (make <deriveicyn> #:inyr (origin->derivation foot-pkg-src)))
 
-;; (define foot-src
-;;   (begin
-;;     (riylaiz! foot-deriveicyn)
-;;     (derivation-sources (<-riylaizd foot-deriveicyn))))
-(define foot-src-path
-  (->path foot-src-deriveicyn))
+;; (define foot-src-path
+;;   (->path foot-src-deriveicyn))
 
 (define foot-theme
   (if %dark-theme
-      (get-string-all (string-append foot-src-path "/themes/derp"))
-      (get-string-all (string-append foot-src-path "/themes/tango"))))
+      (->string foot-src "/themes/derp")
+      (->string foot-src "/themes/gruvbox-light")))
 
 (define foot-config-file
   (mixed-text-file "foot.ini"
@@ -250,9 +246,10 @@
    (user-home
     zsh-home-type
     (zsh-configuration
-     (env (list "source /etc/profile\n" zsh-options shell-env zsh-env))
+     (env (list "source /etc/profile\n"
+		(newline-strings (list zsh-options shell-env zsh-env))))
      (profile (list source-home-profile))
-     (rc (list interactive-zsh-env interactive-zsh zsh-coleremak))
+     (rc (list interactive-zsh))
      (history "/home/.li/.local/share/zsh/history")))
    (user-home
     bash-home-type
