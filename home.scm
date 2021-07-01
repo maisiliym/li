@@ -5,9 +5,11 @@
              (home bash)
              (home zsh)
              (giiks)
+	     (giiks formats)
              (giiks emacs-xyz)
 	     (flat packages emacs)
              (oop goops)
+	     (ice-9 textual-ports)
              (ice-9 format)
              (guix store)
              (guix packages)
@@ -47,8 +49,7 @@
 
 ;(define base-home-configuration (@@ (home) base-home-configuration))
 
-(define (newline-strings strings)
-  (string-join strings "\n" 'prefix))
+(define %dark-theme #f)
 
 (define (shell-set-env env-value-pairs)
   (define (export-env env-value-pair)
@@ -67,7 +68,8 @@
       (base32 "0wnjl269y01hnd41r78h6h564j99236n27izmprs2c07f9pv2g08")))))
 
 (define coleremak
-  (make <deriveicyn> #:inyr coleremak-drv))
+  (make <deriveicyn> #:inyr
+	coleremak-drv))
 
 (define zsh-coleremak
   (newline-strings
@@ -173,11 +175,30 @@
 (define qutebrowser-config-file
   (local-file "qutebrowser-config.py"))
 
-;; (define foot-config-file
-;;   (make-ini-file "foot.ini"
-;; 		 '()))
+(define foot-config
+  (make-ini '()))
+
+(define foot-pkg-src
+  (package-source foot))
+
+(define foot-src-deriveicyn
+  (make <deriveicyn> #:inyr (origin->derivation foot-pkg-src)))
+
+;; (define foot-src
+;;   (begin
+;;     (riylaiz! foot-deriveicyn)
+;;     (derivation-sources (<-riylaizd foot-deriveicyn))))
+(define foot-src-path
+  (->path foot-src-deriveicyn))
+
+(define foot-theme
+  (if %dark-theme
+      (get-string-all (string-append foot-src-path "/themes/derp"))
+      (get-string-all (string-append foot-src-path "/themes/tango"))))
+
 (define foot-config-file
-  (local-file "foot.ini"))
+  (mixed-text-file "foot.ini"
+		   (newline-strings (list foot-config foot-theme))))
 
 (home
  (data-directory "/home/.li")
@@ -297,6 +318,7 @@
 	       emacs-cider ; clojure
 	       emacs-slime sbcl ; common-lisp
 	       emacs-nix-mode
+	       emacs-yaml-mode emacs-json-mode emacs-toml-mode
 	       emacs-markdown-mode ;; emacs-polymode-markdown ; build broken
 	       emacs-magit
 	       emacs-forge emacs-git-link emacs-github-review
