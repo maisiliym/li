@@ -1,7 +1,7 @@
 (use-modules (home)
              (home ssh)
              (home profile)
-             (home utils)
+	     ((home utils) #:select (symlink-file-home))
              (home bash)
              (home zsh)
              (giiks)
@@ -47,7 +47,7 @@
              (gnu packages version-control)
              (gnu packages rust-apps))
 
-(define %dark-theme #t)
+(define %dark-theme #f)
 
 (define (shell-set-env env-value-pairs)
   (define (export-env env-value-pair)
@@ -109,6 +109,7 @@
 (define interactive-zsh
   (newline-strings
    (list
+
     interactive-zsh-env
     "export GPG_TTY=$(tty)"
     "gpg-connect-agent --quiet updatestartuptty /bye > /dev/null"
@@ -143,6 +144,12 @@
      ("github"
       (("user" "maisiliym"))))))
 
+(define gtk-config-file
+  (make-ini-file
+   "settings.ini"
+   `(("Settings"
+      (("gtk-application-prefer-dark-theme" ,(if %dark-theme 1 0)))))))
+
 (define source-home-profile (source-profile '~/.home-profile))
 
 (define sshcontrol-file 
@@ -152,13 +159,6 @@
 (define gnupg-conf '())
 
 (define data-directory "/home/.li")
-
-;; (define haki-base-configuration
-;;   (base-home-configuration
-;;    (guix-symlink "/var/guix/profiles/per-user/li/home/.home-profile")
-;;    (guix-config-symlink (string-append data-directory "/.config/guix"))
-;;    (local-symlink (string-append data-directory "/.local"))
-;;    (cache-symlink (string-append data-directory "/.cache"))))
 
 (define guile-geiser-file
   (local-file "guile-geiser.scm"))
@@ -176,16 +176,16 @@
   (local-file "qutebrowser-config.py"))
 
 (define foot-config
-  (make-ini '()))
+  (make-ini
+   '(("font" "monospace:size=8")
+     ("mouse"
+      (("hide-when-typing" "yes"))))))
 
 (define foot-pkg-src
   (package-source foot))
 
 (define foot-src
   (make <deriveicyn> #:inyr (origin->derivation foot-pkg-src)))
-
-;; (define foot-src-path
-;;   (->path foot-src-deriveicyn))
 
 (define foot-theme
   (if %dark-theme
@@ -219,6 +219,7 @@
    (symlink-file-home "/home/.li/.geiser_history" ".geiser_history")
    (symlink-file-home "/home/.li/.config/transmission-daemon" ".config/transmission-daemon")
    (symlink-file-home qutebrowser-config-file ".config/qutebrowser/config.py")
+   (symlink-file-home gtk-config-file ".config/gtk-3.0/settings.ini")
    ;; (symlink-file-home gitconfig-file ".config/git/config")
    ;; (symlink-file-home guile-geiser-file ".guile-geiser") 
    (user-home
