@@ -47,7 +47,7 @@
              (gnu packages version-control)
              (gnu packages rust-apps))
 
-(define %dark-theme #f)
+(define %dark-theme #t)
 
 (define (shell-set-env env-value-pairs)
   (define (export-env env-value-pair)
@@ -75,7 +75,7 @@
     (string-append ". " (->path coleremak) "/coleremak.zsh") )))
 
 (define shell-env
-  (shell-set-env 
+  (shell-set-env
    (quote 
     (("PATH" "~/.config/guix/current/bin:$PATH")
      ("GUILE_LOAD_PATH" "~/.config/guix/current/share/guile/site/3.0:$GUILE_LOAD_PATH")
@@ -196,6 +196,9 @@
   (mixed-text-file "foot.ini"
 		   (newline-strings (list foot-config foot-theme))))
 
+(define nyxt-config-file
+  (local-file "nyxt/init.lisp"))
+
 (home
  (data-directory "/home/.li")
  (configurations
@@ -220,11 +223,17 @@
    (symlink-file-home "/home/.li/.config/transmission-daemon" ".config/transmission-daemon")
    (symlink-file-home qutebrowser-config-file ".config/qutebrowser/config.py")
    (symlink-file-home gtk-config-file ".config/gtk-3.0/settings.ini")
+   (symlink-file-home nyxt-config-file ".config/nyxt/init.lisp")
    ;; (symlink-file-home gitconfig-file ".config/git/config")
-   ;; (symlink-file-home guile-geiser-file ".guile-geiser") 
+   ;; (symlink-file-home guile-geiser-file ".guile-geiser")
+   
    (user-home
     ssh-home-type
     (ssh-configuration
+     (default-host
+       (ssh-host-configuration
+        (host-name "*")
+	(name "*")))
      (known-hosts
       (list
        (ssh-known-host-configuration
@@ -244,22 +253,24 @@
 	(algo "ssh-ed25519")
         (key "AAAAC3NzaC1lZDI1NTE5AAAAIIFxIyvJxTrKCdXDrLi1ac3kZW8VE/+pW4f/SZVwj2Ue"))
        ))))
+   
    (user-home
     zsh-home-type
     (zsh-configuration
      (env (list "source /etc/profile\n"
-		(newline-strings (list zsh-options shell-env zsh-env))))
-     (profile (list source-home-profile))
+		(newline-strings (list shell-env zsh-options zsh-env))))
+     (profile '())
      (rc (list interactive-zsh))
      (history "/home/.li/.local/share/zsh/history")))
+   
    (user-home
     bash-home-type
     (bash-configuration
-     (rc (reverse (append default-bashrc
-			  (list source-home-profile))))
+     (rc default-bashrc)
      (profile (append default-bash-profile
                       (list "EDITOR=emacs\n")))
      (history "/home/.li/.local/share/bash/history")))
+   
    (user-home package-profile-home-type
 	      (list
 	       guix shepherd ; info manual? bug: breaks guix channel
@@ -280,7 +291,7 @@
 	       nyxt qutebrowser
 	       nheko
 	       qtox
-	       profanity gajim gajim-omemo
+	       gajim gajim-omemo
 	       mpv
 	       zathura zathura-cb zathura-ps zathura-djvu zathura-pdf-mupdf
 	       evince
@@ -300,6 +311,7 @@
 	       emacs-diredfl
 	       emacs-dired-rsync
 	       emacs-dired-git-info
+	       emacs-find-file-in-project
 	       ;; emacs-all-the-icons-dired ; huge slowdown
 	       emacs-fish-completion fish
 	       emacs-adaptive-wrap
@@ -325,7 +337,6 @@
 	       emacs-company
 	       emacs-selectrum
 	       emacs-posframe
-	       emacs-ctrlf
 	       emacs-orderless
 	       emacs-consult
 	       emacs-embark
