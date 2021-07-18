@@ -257,8 +257,7 @@
    (user-home
     zsh-home-type
     (zsh-configuration
-     (env (list "source /etc/profile\n"
-		(newline-strings (list shell-env zsh-options zsh-env))))
+     (env (list (newline-strings (list shell-env zsh-options zsh-env))))
      (profile '())
      (rc (list interactive-zsh))
      (history "/home/.li/.local/share/zsh/history")))
@@ -288,10 +287,11 @@
 	       wl-clipboard
 	       redshift-wayland
 	       aria2 nload
-	       nyxt qutebrowser
+	       nyxt
+	       qutebrowser
 	       nheko
 	       qtox
-	       gajim gajim-omemo
+	       dino
 	       mpv
 	       zathura zathura-cb zathura-ps zathura-djvu zathura-pdf-mupdf
 	       evince
@@ -304,6 +304,7 @@
 	       emacs-org
 	       emacs-org-roam
 	       emacs-orgit
+	       emacs-org-pandoc-import
 	       emacs-doom-modeline emacs-doom-themes
 	       emacs-deadgrep
 	       emacs-dired-hacks
