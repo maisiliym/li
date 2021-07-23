@@ -22,6 +22,7 @@
              (gnu packages guile)
              (gnu packages xdisorg)
              (gnu packages web-browsers)
+             (gnu packages chromium)
              (gnu packages wm)
 	     (gnu packages pdf)
              (gnu packages gnome)
@@ -79,7 +80,8 @@
    (quote 
     (("PATH" "~/.config/guix/current/bin:$PATH")
      ("GUILE_LOAD_PATH" "~/.config/guix/current/share/guile/site/3.0:$GUILE_LOAD_PATH")
-     ("GUILE_LOAD_COMPILED_PATH" "~/.config/guix/current/lib/guile/3.0/site-ccache:$GUILE_LOAD_COMPILED_PATH")))))
+     ("GUILE_LOAD_COMPILED_PATH" "~/.config/guix/current/lib/guile/3.0/site-ccache:$GUILE_LOAD_COMPILED_PATH")
+     ("GDK_BACKEND" "wayland")))))
 
 (define (zsh-enable-options opts)
   (newline-strings
@@ -219,6 +221,7 @@
    (symlink-file-home "/home/.li/.guile" ".guile")
    (symlink-file-home "/home/.li/.slime" ".slime")
    (symlink-file-home "/home/.li/.dbus" ".dbus")
+   (symlink-file-home "/home/.li/.config/chromium" ".config/chromium")
    (symlink-file-home "/home/.li/.geiser_history" ".geiser_history")
    (symlink-file-home "/home/.li/.config/transmission-daemon" ".config/transmission-daemon")
    (symlink-file-home qutebrowser-config-file ".config/qutebrowser/config.py")
@@ -257,7 +260,9 @@
    (user-home
     zsh-home-type
     (zsh-configuration
-     (env (list (newline-strings (list shell-env zsh-options zsh-env))))
+     (env (list (newline-strings
+		 (list "source /etc/profile\n"
+		       shell-env zsh-options zsh-env))))
      (profile '())
      (rc (list interactive-zsh))
      (history "/home/.li/.local/share/zsh/history")))
@@ -272,7 +277,7 @@
    
    (user-home package-profile-home-type
 	      (list
-	       guix shepherd ; info manual? bug: breaks guix channel
+	       ;; guix shepherd ; info manual? bug: breaks guix channel
 	       zsh fzf perl
 	       tokei
 	       gdb
@@ -283,12 +288,13 @@
 	       ncurses
 	       git mercurial ghq
 	       gnupg pinentry-tty pinentry-gnome3 pinentry-emacs
-	       wofi foot waybar swaylock swayidle
+	       wofi foot waybar swayidle
 	       wl-clipboard
 	       redshift-wayland
 	       aria2 nload
 	       nyxt
 	       qutebrowser
+	       ungoogled-chromium/wayland
 	       nheko
 	       qtox
 	       dino
