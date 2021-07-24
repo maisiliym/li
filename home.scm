@@ -81,7 +81,8 @@
     (("PATH" "~/.config/guix/current/bin:$PATH")
      ("GUILE_LOAD_PATH" "~/.config/guix/current/share/guile/site/3.0:$GUILE_LOAD_PATH")
      ("GUILE_LOAD_COMPILED_PATH" "~/.config/guix/current/lib/guile/3.0/site-ccache:$GUILE_LOAD_COMPILED_PATH")
-     ("GDK_BACKEND" "wayland")))))
+     ("GDK_BACKEND" "wayland")
+     ("SSH_AUTH_SOCK" "$(gpgconf --list-dirs agent-ssh-socket)")))))
 
 (define (zsh-enable-options opts)
   (newline-strings
@@ -103,8 +104,7 @@
 (define interactive-zsh-env 
   (shell-set-env 
    (quote
-    (("SSH_AUTH_SOCK" "$(gpgconf --list-dirs agent-ssh-socket)")
-     ("EDITOR" "emacs")
+    (("EDITOR" "emacs")
      ("FZF_DEFAULT_OPTS" "\"--bind=ctrl-o:up,ctrl-e:up,ctrl-n:down,ctrl-k:down,ctrl-i:clear-screen,ctrl-s:delete-char/eof,ctrl-f:end-of-line,alt-t:forward-word,alt-s:kill-word,ctrl-u:toggle+down,ctrl-l:unix-line-discard,ctrl-j:yank --color=bg:#f9f5d7,bg+:#ebdbb2,fg:#665c54,fg+:#3c3836,header:#076678,hl:#076678,hl+:#076678,info:#b57614,marker:#427b58,pointer:#427b58,prompt:#b57614,spinner:#427b58\"")
      ("FZF_DEFAULT_COMMAND" "\"fd -tf\"")))))
 
@@ -277,7 +277,6 @@
    
    (user-home package-profile-home-type
 	      (list
-	       ;; guix shepherd ; info manual? bug: breaks guix channel
 	       zsh fzf perl
 	       tokei
 	       gdb
